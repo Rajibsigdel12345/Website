@@ -1,0 +1,29 @@
+{% extends 'templates\base.html' %}
+{% load crispy_forms_tags %}
+{% block login %}
+<!--Login--> 
+<style>
+  form{
+      width: 90%;
+    }
+    form div{
+      margin: 0 2%;
+    }
+  @media screen and (min-width:1080px){
+    form{
+    width: 50%;
+  }
+  }
+</style>
+<div class="container py-2 m-auto">
+  <form method="POST" class = "m-auto card p-2 flex">
+    <h1>Login</h1>
+    {% csrf_token %}
+    {{ form.username|as_crispy_field }}
+    {{ form.password|as_crispy_field }}
+    <button style="width: 50%;" class="btn btn-primary align-self-center" type="submit">Login</button>
+    <p class="text-center">Don't have an account? <a href="/register">Create an account</a>.</p>
+  </form>
+  
+</div>
+{% endblock %}

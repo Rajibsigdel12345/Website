@@ -1,0 +1,36 @@
+{% extends 'templates\base.html' %} 
+{%block home%}
+{% load crispy_forms_tags %}
+<nav class=" nav1 navbar navbar-expand-lg  bg-body-tertiary">
+  {% include "templates\navbar.html" %}
+</nav>
+{% if hotel_list %}
+<div class="row  m-auto m-md-auto mx-md-5 mt-3 ">
+{% for list in hotel_list %}
+  <div class="card col-12  col-sm-6 col-md-4 col-lg-3 p-1" >
+    <img  height = "40%"src="{{list.image}}" class="card-img-top" alt="{{list.name}}">
+    <div class="card-body">
+      <h5 class="card-title">{{list.name}}</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>Location:</strong></li>
+      {%for locations in list.locations.all %}
+      <li class="list-group-item"> {{locations.location}}, {{locations.address}}</li>
+      {% endfor %}
+      <li class="list-group-item">
+      {%for locations in list.locations.all %}
+      {{locations.phone}}
+      {% endfor %}
+      </li>
+      
+
+    </ul>
+    <div class="card-body">
+      <a href="{% url  'hotelinfo:Room' list.pk %}" class="card-link">View Room</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+  {% endif %}
+{% endblock %}

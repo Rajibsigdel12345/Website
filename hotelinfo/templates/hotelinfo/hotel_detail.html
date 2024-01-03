@@ -1,0 +1,70 @@
+{% extends "templates\base.html"%}
+{%block hotelroom %}
+<nav class=" nav1 navbar navbar-expand-lg  bg-body-tertiary">
+  {% include "templates\navbar.html" %}
+</nav>
+<div class = "row mt-5 mt-lg-2  mx-0 justify-content-center">
+    <img class="col-10 col-lg-6 col-md-8" src="{{hotel.image}}" alt="{{hotel.name}}">
+</div>
+
+<br>
+<p style="text-align: center;">
+
+  <strong>Name: </strong>
+  {{hotel.name}}
+  <br>
+  <strong>Total Rooms: </strong>
+  {{hotel.Total_rooms}}
+</p>
+<div class="row  mx-0 justify-content-center">
+
+  <table  class =" col-10 "style=" text-align: center;" border="1px" cellspacing ="2">
+    {% if hotel.room_set.all%}
+    <tr>
+      <th>Room <br> Number </th>
+      <th>Room Style </th>
+      <th>Booking Price </th>
+      <th>Status </th>
+    </tr>
+    {% for rooms in hotel.getRoom%}
+    <tr>
+      <td style="text-align: left;"><span value = "room_number">{{rooms.room_number}}</span></td>
+      <td><span value = "room_style"> {{rooms.room_style}}</td>
+      </span> 
+      <td><span value = "booking_price">{{rooms.booking_price}}$</span></td>
+      <td>
+      {% if rooms.available %}
+       Available
+        <form  method="GET"></form> 
+        {% if  not user.is_staff %} 
+       {%comment%} 
+       <button class="btn btn-sm  btn-primary" type="submit"> Book Now btn</button>
+       {%endcomment%}
+       
+       <a type="submit" id="book" class = "btn btn-sm btn-primary"value="{{rooms.pk}}" href="{%if user.is_authenticated%}{% url 'hotel:book' rooms.id %}{%else%}{% url 'home:Login' %}?next={{request.path}}{%endif%}">Book now</a>
+       
+       {%endif%}
+      </form>
+      {% else %}
+      Booked <br>
+      {%endif%}
+      {% if user.account.actype == "HOUSEKEEPING" %}
+       <a href="{%url 'hotel:update' rooms.id%}">next</a>
+       {%endif%}
+    </td>
+    </tr>
+    <tr>
+    {%endfor%}
+    {%else%}
+<td>No rooms added yet</td>
+</tr>
+{%endif%}
+  </table>
+
+</div>
+<a  class = "nav-link "href="{% url 'home:homepage'%}"> back</a>
+{% if user.account.actype == "HOUSEKEEPING" %}
+<a href="{%url 'hotel:create' hotel.id %}">next</a>
+{%endif%}
+
+{% endblock %}

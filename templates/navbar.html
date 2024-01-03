@@ -1,0 +1,11 @@
+
+<div class="container-fluid nav-item">
+{% if user.is_authenticated %}
+    <a class = "nav-link  nav-item " href="{% url 'home:homepage'%}">Hello {{user.username}} </a>
+    <a class = "nav-link  nav-item " href="{% url 'home:Logout' %}?next={{request.path}}">logout</a>
+{% else %}
+        <a class = "nav-link nav-item" href="{% url 'home:Login' %}?next={{request.path}}">login</a>
+        <a class = " nav-link nav-item" href="{% url 'home:Signup' %}">Register</a>
+{% endif %}
+</div>
+
